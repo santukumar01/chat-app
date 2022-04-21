@@ -1,0 +1,12 @@
+#container{
+    border: 2px solid red;
+    border-radius: 20px;
+    height: 70vh;
+}
+
+#massage_list{
+    color: red;
+}
+#text_area{
+    border: 2px solid gray;
+}

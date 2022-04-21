@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SocketsChat</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        #container{
+            height: 70vh;
+            border: 2px solid red;
+        }
+        #message_area{
+             display: inline;
+             height: 20px;
+        }
+        #text_area {
+        display: inline;
+         width: 87vw;
+         }
+         #btn{
+             border: 2px solid red ;
+             width: 10vw;
+         }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+        <ul id="message_list"></ul>
+    </div>
+    <div id ="send_area">
+        <form id="message_area" action="">
+            <input id="text_area" autocomplete="off" />
+        </form>
+        <button id ='btn'>Send</button>
+    </div>
+
+<script>
+    const socket = io();
+
+    const username = window.prompt("Enter the username");
+    socket.emit('new user', username);
+
+    const messageForm = document.getElementById('message_area');
+    const textInput = document.getElementById('text_area');
+
+    messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (textInput.value) {socket.emit('new message', textInput.value);
+            textInput.value = '';
+        }
+    });
+
+    socket.on('send message', (data) => {
+        const messageList = document.getElementById('message_list');
+        const chatItem = document.createElement('li');
+        chatItem.textContent = data.user + ': ' + data.message;
+        messageList.appendChild(chatItem);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+</script>
+
+</body>
+
+</html>
